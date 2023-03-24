@@ -1,18 +1,19 @@
 import {createRef} from 'react'
 import {createRoot} from 'react-dom/client'
-import {createBrowserRouter, Link, NavLink, RouterProvider, useLocation, useOutlet,} from 'react-router-dom'
+import {createBrowserRouter, Link, RouterProvider, useLocation, useOutlet,} from 'react-router-dom'
 import {CSSTransition, SwitchTransition} from 'react-transition-group'
-import {Nav, Navbar} from 'react-bootstrap'
 import Home from './components/Home'
 import About from './components/About'
 import Contact from './components/Contact'
+import Navbar from './components/Navbar'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './index.css'
 import Project from "./components/Project";
-import img from "./theme/logo.jpg";
+import img from "./theme/logo-removebg-preview.png";
 import {IconContext} from "react-icons";
-import {FaGithub, FaInstagram, FaLinkedinIn, FaPhoneAlt, FaSteam, FaTwitch} from "react-icons/fa";
+import {FaGithub, FaInstagram, FaLinkedinIn, FaSteam, FaTwitch} from "react-icons/fa";
 import './theme/circular-std-medium-500.ttf';
+
 
 const routes = [
     {path: '/', name: 'home', element: <Home/>, nodeRef: createRef()},
@@ -34,17 +35,17 @@ const router = createBrowserRouter([
 ])
 
 function Example() {
-
     const location = useLocation()
     const currentOutlet = useOutlet()
     const {nodeRef} =
     routes.find((route) => route.path === location.pathname) ?? {}
     return (
         <>
-            <div className="d-flex gap-2 h-100">
-                <div className="col-md-1 sidebar d-flex flex-column align-items-center justify-content-between">
-                    <img src={img} className="logo_img" alt="logo"/>
-                    <div className="d-flex flex-column gap-3">
+            <div className="d-flex gap-2 h-100 flex-column-reverse flex-md-row">
+                <div
+                    className="col-md-1 sidebar border-right d-flex flex-row flex-md-column align-items-center justify-content-between align-self-center align-self-md-auto">
+                    <img src={img} className="logo_img d-none d-md-block" alt="logo"/>
+                    <div className="d-flex flex-row flex-md-column mx-3 gap-3">
                         <IconContext.Provider value={{className: 'linkedin'}}>
                             <Link to="http://www.linkedin.com/in/mohamadabdeljalil/"
                                   target="_blank"><FaLinkedinIn/></Link>
@@ -64,25 +65,8 @@ function Example() {
                     </div>
                 </div>
                 <div className="d-flex flex-column h-100 w-100">
-                    <Navbar className="justify-content-between px-5">
-                        <Nav className="gap-5">
-                            {routes.map((route) => (
-                                <Nav.Link
-                                    key={route.path}
-                                    as={NavLink}
-                                    to={route.path}
-                                    className={({isActive}) => (isActive ? 'active' : undefined)}
-                                    end
-                                >
-                                    {route.name}
-                                </Nav.Link>
-                            ))}
-                        </Nav>
-                        <IconContext.Provider value={{className: 'text-danger'}}>
-                            <Link to="/" className="text-decoration-none align-items-center d-flex"><FaPhoneAlt/><p
-                                className="m-0 ps-2 text-danger">Schedule a call</p></Link>
-                        </IconContext.Provider>
-                    </Navbar>
+
+                    <Navbar routeObj={routes}/>
                     {/*margin:auto*/}
                     <SwitchTransition>
                         <CSSTransition
